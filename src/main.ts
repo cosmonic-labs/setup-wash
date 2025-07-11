@@ -7,75 +7,72 @@ import * as fs from 'fs'
 export async function run(): Promise<void> {
   try {
     const version = core.getInput('version') || 'latest'
-    const platform = os.platform()
-    let arch = os.arch()
-    // Map Node arch to wash arch
-    if (arch === 'x64') arch = 'amd64'
-    if (arch === 'arm64') arch = 'aarch64'
+    const nodePlatform = os.platform()
+    const nodeArch = os.arch()
 
-    let ext = ''
-    let tarball = ''
-    if (platform === 'win32') {
-      ext = '.zip'
-      tarball = `wash-${platform}-${arch}${ext}`
+    // Map Node arch and platform to wash release asset format
+    let platform: string
+    let ext: string
+    let assetName: string
+    let isWindows = false
+
+    // Map to release asset platform string based on install.sh logic
+    if (nodePlatform === 'win32') {
+      platform = 'x86_64-pc-windows-msvc'
+      ext = '.exe'
+      assetName = `wash-${platform}${ext}`
+      isWindows = true
+    } else if (nodePlatform === 'darwin') {
+      platform =
+        nodeArch === 'arm64' ? 'aarch64-apple-darwin' : 'x86_64-apple-darwin'
+      ext = ''
+      assetName = `wash-${platform}`
+    } else if (nodePlatform === 'linux') {
+      platform =
+        nodeArch === 'arm64'
+          ? 'aarch64-unknown-linux-musl'
+          : 'x86_64-unknown-linux-musl'
+      ext = ''
+      assetName = `wash-${platform}`
     } else {
-      ext = '.tar.gz'
-      tarball = `wash-${platform}-${arch}${ext}`
+      throw new Error(`Unsupported platform: ${nodePlatform} ${nodeArch}`)
     }
 
+    // Build the download URL using the cosmonic-labs repository
     let url = ''
     if (version === 'latest') {
-      url = `https://github.com/wasmCloud/wash/releases/latest/download/${tarball}`
+      url = `https://github.com/cosmonic-labs/wash/releases/latest/download/${assetName}`
     } else {
-      url = `https://github.com/wasmCloud/wash/releases/download/v${version}/${tarball}`
+      url = `https://github.com/cosmonic-labs/wash/releases/download/v${version}/${assetName}`
     }
 
+    // Create installation directory
     const installDir = path.join(
-      process.env[platform === 'win32' ? 'USERPROFILE' : 'HOME'] ||
+      process.env[nodePlatform === 'win32' ? 'USERPROFILE' : 'HOME'] ||
         os.homedir(),
       '.wash-bin'
     )
     fs.mkdirSync(installDir, { recursive: true })
-    const archivePath = path.join(installDir, tarball)
+    const binPath = path.join(installDir, isWindows ? 'wash.exe' : 'wash')
 
+    // Download the binary
     core.info(`Downloading wash from ${url}`)
-    await exec.exec(`curl -sSL -o "${archivePath}" "${url}"`)
+    await exec.exec(`curl -sSL -o "${binPath}" "${url}"`)
 
-    if (platform === 'win32') {
-      await exec.exec(
-        `powershell -Command "Expand-Archive -Path '${archivePath}' -DestinationPath '${installDir}' -Force"`
-      )
-    } else {
-      await exec.exec(`tar -xzf "${archivePath}" -C "${installDir}"`)
-    }
+    // Make the binary executable
+    fs.chmodSync(binPath, 0o755)
 
-    // Find the wash binary
-    let washPath = path.join(installDir, 'wash')
-    if (platform === 'win32') washPath += '.exe'
-    if (!fs.existsSync(washPath)) {
-      // Sometimes the binary is inside a folder in the archive
-      const files = fs.readdirSync(installDir)
-      for (const file of files) {
-        if (file.startsWith('wash')) {
-          const candidate = path.join(
-            installDir,
-            file,
-            platform === 'win32' ? 'wash.exe' : 'wash'
-          )
-          if (fs.existsSync(candidate)) {
-            washPath = candidate
-            break
-          }
-        }
-      }
-    }
-    fs.chmodSync(washPath, 0o755)
-    core.addPath(path.dirname(washPath))
-    core.info(`wash installed to ${washPath}`)
-    // Optionally print version
-    await exec.exec(`"${washPath}" --version`)
+    // Add to PATH
+    core.addPath(installDir)
+    core.info(`wash installed to ${binPath}`)
+
+    // Print version
+    await exec.exec(`"${binPath}" --version`)
   } catch (error) {
-    if (error instanceof Error) core.setFailed(error.message)
-    else core.setFailed('Unknown error occurred during wash installation')
+    if (error instanceof Error) {
+      core.setFailed(error.message)
+    } else {
+      core.setFailed('Unknown error occurred during wash installation')
+    }
   }
 }

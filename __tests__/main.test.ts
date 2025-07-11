@@ -120,6 +120,20 @@ describe('setup-wash action', () => {
     expect(exec.exec).toHaveBeenCalled()
   })
 
+  it('runs on macOS (darwin)', async () => {
+    // Set up mocks specific to this test
+    os.platform.mockReturnValue('darwin')
+    os.arch.mockReturnValue('x64')
+    os.homedir.mockReturnValue('/Users/user')
+
+    await run()
+
+    expect(core.info).toHaveBeenCalledWith(
+      expect.stringContaining('Downloading wash from')
+    )
+    expect(exec.exec).toHaveBeenCalled()
+  })
+
   it('handles arm64 architecture', async () => {
     // Set up mocks specific to this test
     os.platform.mockReturnValue('linux')
