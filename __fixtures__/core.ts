@@ -1,10 +1,18 @@
-import type * as core from '@actions/core'
+/**
+ * Mock for @actions/core
+ */
 import { jest } from '@jest/globals'
 
-export const debug = jest.fn<typeof core.debug>()
-export const error = jest.fn<typeof core.error>()
-export const info = jest.fn<typeof core.info>()
-export const getInput = jest.fn<typeof core.getInput>()
-export const setOutput = jest.fn<typeof core.setOutput>()
-export const setFailed = jest.fn<typeof core.setFailed>()
-export const warning = jest.fn<typeof core.warning>()
+// Create mock functions for all core methods used in the action
+export const getInput = jest.fn()
+export const setFailed = jest.fn()
+export const info = jest.fn()
+export const addPath = jest.fn()
+
+// Reset all mocks before each test
+export function resetMocks(): void {
+  getInput.mockReset()
+  setFailed.mockReset()
+  info.mockReset()
+  addPath.mockReset()
+}

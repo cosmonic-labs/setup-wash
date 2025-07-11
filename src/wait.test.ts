@@ -1,5 +1,5 @@
 import { describe, expect, test, jest } from '@jest/globals'
-import { wait } from '../src/wait.js'
+import { wait } from './wait.js'
 
 describe('wait', () => {
   // Save original setTimeout

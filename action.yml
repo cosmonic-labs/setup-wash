@@ -1,23 +1,20 @@
-name: The name of your action here
-description: Provide a description here
-author: Your name or organization here
+name: 'setup-wash'
+description: 'GitHub Action to install the wash CLI for wasmCloud development.'
+author: 'Cosmonic Labs'
 
-# Add your action's branding here. This will appear on the GitHub Marketplace.
 branding:
-  icon: heart
-  color: red
+  icon: 'terminal'
+  color: 'blue'
 
 # Define your inputs here.
 inputs:
-  milliseconds:
-    description: Your input description here
-    required: true
-    default: '1000'
+  version:
+    description: 'Version of wash to install (default: latest)'
+    required: false
+    default: 'latest'
 
-# Define your outputs here.
-outputs:
-  time:
-    description: Your output description here
+# No outputs for now
+outputs: {}
 
 runs:
   using: node20

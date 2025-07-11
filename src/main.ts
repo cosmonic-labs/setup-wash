@@ -1,27 +1,81 @@
 import * as core from '@actions/core'
-import { wait } from './wait.js'
+import * as exec from '@actions/exec'
+import * as os from 'os'
+import * as path from 'path'
+import * as fs from 'fs'
 
-/**
- * The main function for the action.
- *
- * @returns Resolves when the action is complete.
- */
 export async function run(): Promise<void> {
   try {
-    const ms: string = core.getInput('milliseconds')
+    const version = core.getInput('version') || 'latest'
+    const platform = os.platform()
+    let arch = os.arch()
+    // Map Node arch to wash arch
+    if (arch === 'x64') arch = 'amd64'
+    if (arch === 'arm64') arch = 'aarch64'
 
-    // Debug logs are only output if the `ACTIONS_STEP_DEBUG` secret is true
-    core.debug(`Waiting ${ms} milliseconds ...`)
+    let ext = ''
+    let tarball = ''
+    if (platform === 'win32') {
+      ext = '.zip'
+      tarball = `wash-${platform}-${arch}${ext}`
+    } else {
+      ext = '.tar.gz'
+      tarball = `wash-${platform}-${arch}${ext}`
+    }
 
-    // Log the current timestamp, wait, then log the new timestamp
-    core.debug(new Date().toTimeString())
-    await wait(parseInt(ms, 10))
-    core.debug(new Date().toTimeString())
+    let url = ''
+    if (version === 'latest') {
+      url = `https://github.com/wasmCloud/wash/releases/latest/download/${tarball}`
+    } else {
+      url = `https://github.com/wasmCloud/wash/releases/download/v${version}/${tarball}`
+    }
 
-    // Set outputs for other workflow steps to use
-    core.setOutput('time', new Date().toTimeString())
+    const installDir = path.join(
+      process.env[platform === 'win32' ? 'USERPROFILE' : 'HOME'] ||
+        os.homedir(),
+      '.wash-bin'
+    )
+    fs.mkdirSync(installDir, { recursive: true })
+    const archivePath = path.join(installDir, tarball)
+
+    core.info(`Downloading wash from ${url}`)
+    await exec.exec(`curl -sSL -o "${archivePath}" "${url}"`)
+
+    if (platform === 'win32') {
+      await exec.exec(
+        `powershell -Command "Expand-Archive -Path '${archivePath}' -DestinationPath '${installDir}' -Force"`
+      )
+    } else {
+      await exec.exec(`tar -xzf "${archivePath}" -C "${installDir}"`)
+    }
+
+    // Find the wash binary
+    let washPath = path.join(installDir, 'wash')
+    if (platform === 'win32') washPath += '.exe'
+    if (!fs.existsSync(washPath)) {
+      // Sometimes the binary is inside a folder in the archive
+      const files = fs.readdirSync(installDir)
+      for (const file of files) {
+        if (file.startsWith('wash')) {
+          const candidate = path.join(
+            installDir,
+            file,
+            platform === 'win32' ? 'wash.exe' : 'wash'
+          )
+          if (fs.existsSync(candidate)) {
+            washPath = candidate
+            break
+          }
+        }
+      }
+    }
+    fs.chmodSync(washPath, 0o755)
+    core.addPath(path.dirname(washPath))
+    core.info(`wash installed to ${washPath}`)
+    // Optionally print version
+    await exec.exec(`"${washPath}" --version`)
   } catch (error) {
-    // Fail the workflow run if an error occurs
     if (error instanceof Error) core.setFailed(error.message)
+    else core.setFailed('Unknown error occurred during wash installation')
   }
 }

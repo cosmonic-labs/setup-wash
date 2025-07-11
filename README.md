@@ -1,44 +1,58 @@
-# Create a GitHub Action Using TypeScript
+# setup-wash
 
-[![GitHub Super-Linter](https://github.com/actions/typescript-action/actions/workflows/linter.yml/badge.svg)](https://github.com/super-linter/super-linter)
-![CI](https://github.com/actions/typescript-action/actions/workflows/ci.yml/badge.svg)
-[![Check dist/](https://github.com/actions/typescript-action/actions/workflows/check-dist.yml/badge.svg)](https://github.com/actions/typescript-action/actions/workflows/check-dist.yml)
-[![CodeQL](https://github.com/actions/typescript-action/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/actions/typescript-action/actions/workflows/codeql-analysis.yml)
 [![Coverage](./badges/coverage.svg)](./badges/coverage.svg)
 
-Use this template to bootstrap the creation of a TypeScript action. :rocket:
+**setup-wash** is a GitHub Action for installing the
+[wash](https://github.com/wasmCloud/wash) CLI, the official tool for wasmCloud
+development. This action makes it easy to add wash to your CI workflows.
 
-This template includes compilation support, tests, a validation workflow,
-publishing, and versioning guidance.
+## Features
 
-If you are new, there's also a simpler introduction in the
-[Hello world JavaScript action repository](https://github.com/actions/hello-world-javascript-action).
+- Installs the specified version of wash (or the latest by default)
+- Cross-platform: Linux, macOS, and Windows
+- Adds wash to the PATH for subsequent workflow steps
 
-## Create Your Own Action
+## Usage
 
-To create your own action, you can use this repository as a template! Just
-follow the below instructions:
+Add the following step to your workflow:
 
-1. Click the **Use this template** button at the top of the repository
-1. Select **Create a new repository**
-1. Select an owner and name for your new repository
-1. Click **Create repository**
-1. Clone your new repository
+```yaml
+- name: Setup wash
+  uses: cosmonic-labs/setup-wash@v1
+  with:
+    version: 'latest' # or specify a version like '0.24.0'
+```
 
-> [!IMPORTANT]
->
-> Make sure to remove or update the [`CODEOWNERS`](./CODEOWNERS) file! For
-> details on how to use this file, see
-> [About code owners](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners).
+You can now use the `wash` CLI in later steps:
 
-## Initial Setup
+```yaml
+- name: Check wash version
+  run: wash --version
+```
 
-After you've cloned the repository to your local machine or codespace, you'll
-need to perform some initial setup steps before you can develop your action.
+### Inputs
 
-> [!NOTE]
->
-> You'll need to have a reasonably modern version of
+| Name    | Description                | Default |
+| ------- | -------------------------- | ------- |
+| version | Version of wash to install | latest  |
+
+## Example Workflow
+
+```yaml
+name: CI
+on: [push, pull_request]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: cosmonic-labs/setup-wash@v1
+        with:
+          version: 'latest'
+      - run: wash --version
+      # ... your other steps ...
+```
+
 > [Node.js](https://nodejs.org) handy (20.x or later should work!). If you are
 > using a version manager like [`nodenv`](https://github.com/nodenv/nodenv) or
 > [`fnm`](https://github.com/Schniz/fnm), this template has a `.node-version`
@@ -53,24 +67,89 @@ need to perform some initial setup steps before you can develop your action.
    npm install
    ```
 
-1. :building_construction: Package the TypeScript for distribution
+2. :building_construction: Package the TypeScript for distribution
 
-   ```bash
    npm run bundle
    ```
 
-1. :white_check_mark: Run the tests
+3. :white_check_mark: Run the tests
 
    ```bash
    $ npm test
-
-   PASS  ./index.test.js
-     ✓ throws invalid number (3ms)
      ✓ wait 500 ms (504ms)
-     ✓ test runs (95ms)
-
    ...
    ```
+
+## Testing and Coverage
+
+This project uses Jest for testing. The tests are located in the `__tests__/` directory with a `.test.ts` extension. Mock fixtures for dependencies are located in the `__fixtures__/` directory.
+
+### Test Structure
+
+The test files are organized as follows:
+
+- `__tests__/main.test.ts`: Tests for the main functionality of the GitHub Action
+- `__tests__/wait.test.ts`: Tests for the wait utility function
+- `__fixtures__/`: Contains mock implementations of dependencies:
+  - `core.ts`: Mocks for @actions/core
+  - `exec.ts`: Mocks for @actions/exec
+  - `fs.ts`: Mocks for fs
+  - `os.ts`: Mocks for os
+  - `path.ts`: Mocks for path
+
+The tests use Jest's mocking capabilities to isolate the code being tested from its dependencies. This allows for more reliable and focused testing.
+
+### Running Tests
+
+To run the tests:
+
+```bash
+npm test
+```
+
+### Test Coverage
+
+Test coverage is automatically calculated when running tests. To generate a coverage report and badge:
+
+```bash
+npm run coverage
+```
+
+This will create a coverage badge in the `badges/` directory and detailed reports in the `coverage/` directory.
+
+### Adding New Tests
+
+When adding new tests to the project, follow these guidelines:
+
+1. Place test files in the `__tests__/` directory with a `.test.ts` extension
+2. Use the existing mock fixtures in `__fixtures__/` for dependencies
+3. Import the module under test dynamically after setting up mocks:
+   ```typescript
+   // Set up mocks first
+   jest.mock('@actions/core', () => ({
+     // mock implementations
+   }))
+   
+   // Then dynamically import the module under test
+   beforeEach(async () => {
+     // Reset mocks
+     jest.resetAllMocks()
+     
+     // Set up mock implementations
+     
+     // Import the module
+     ;({ run } = await import('../src/main.js'))
+   })
+   ```
+4. Write tests that focus on the functionality rather than implementation details
+5. Run tests with `npm test` to ensure they pass
+
+### Continuous Integration
+
+A GitHub Actions workflow is set up to run tests and update coverage information on every push to the main branch and on pull requests. The workflow is defined in `.github/workflows/test.yml`.
+
+## License
+Apache-2.0 © Cosmonic Labs
 
 ## Update the Action Metadata
 
