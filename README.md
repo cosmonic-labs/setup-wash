@@ -69,6 +69,7 @@ jobs:
 
 2. :building_construction: Package the TypeScript for distribution
 
+   ```bash
    npm run bundle
    ```
 
