@@ -1,14 +1,14 @@
 import * as require$$0 from 'os';
 import require$$0__default from 'os';
 import require$$0$1 from 'crypto';
-import * as fs from 'fs';
-import fs__default from 'fs';
-import * as path from 'path';
-import path__default from 'path';
+import * as require$$1$1 from 'fs';
+import require$$1__default from 'fs';
+import * as require$$1 from 'path';
+import require$$1__default$1 from 'path';
 import require$$2 from 'http';
 import require$$3 from 'https';
 import require$$0$5 from 'net';
-import require$$1 from 'tls';
+import require$$1$2 from 'tls';
 import require$$0$4 from 'assert';
 import require$$0$2 from 'util';
 import require$$0$6 from 'stream';
@@ -16,14 +16,14 @@ import require$$0$3 from 'buffer';
 import require$$8 from 'querystring';
 import require$$14 from 'stream/web';
 import require$$0$8 from 'node:stream';
-import require$$1$1 from 'node:util';
+import require$$1$3 from 'node:util';
 import require$$0$7 from 'node:events';
 import require$$0$9 from 'worker_threads';
 import require$$2$1 from 'perf_hooks';
 import require$$5 from 'util/types';
 import require$$4 from 'async_hooks';
-import require$$1$2 from 'console';
-import require$$1$3 from 'url';
+import require$$1$4 from 'console';
+import require$$1$5 from 'url';
 import require$$3$1 from 'zlib';
 import require$$0$a from 'diagnostics_channel';
 import require$$2$2 from 'child_process';
@@ -223,7 +223,7 @@ function requireFileCommand () {
 	// We use any as a valid input type
 	/* eslint-disable @typescript-eslint/no-explicit-any */
 	const crypto = __importStar(require$$0$1);
-	const fs = __importStar(fs__default);
+	const fs = __importStar(require$$1__default);
 	const os = __importStar(require$$0__default);
 	const utils_1 = requireUtils$1();
 	function issueFileCommand(command, message) {
@@ -857,7 +857,7 @@ var hasRequiredTunnel$1;
 function requireTunnel$1 () {
 	if (hasRequiredTunnel$1) return tunnel$1;
 	hasRequiredTunnel$1 = 1;
-	var tls = require$$1;
+	var tls = require$$1$2;
 	var http = require$$2;
 	var https = require$$3;
 	var events = requireEvents$1();
@@ -2239,7 +2239,7 @@ function requireSbmh () {
 	 * by Hongli Lai at: https://github.com/FooBarWidget/boyer-moore-horspool
 	 */
 	const EventEmitter = require$$0$7.EventEmitter;
-	const inherits = require$$1$1.inherits;
+	const inherits = require$$1$3.inherits;
 
 	function SBMH (needle) {
 	  if (typeof needle === 'string') {
@@ -2448,7 +2448,7 @@ function requirePartStream () {
 	if (hasRequiredPartStream) return PartStream_1;
 	hasRequiredPartStream = 1;
 
-	const inherits = require$$1$1.inherits;
+	const inherits = require$$1$3.inherits;
 	const ReadableStream = require$$0$8.Readable;
 
 	function PartStream (opts) {
@@ -2494,7 +2494,7 @@ function requireHeaderParser () {
 	hasRequiredHeaderParser = 1;
 
 	const EventEmitter = require$$0$7.EventEmitter;
-	const inherits = require$$1$1.inherits;
+	const inherits = require$$1$3.inherits;
 	const getLimit = requireGetLimit();
 
 	const StreamSearch = requireSbmh();
@@ -2602,7 +2602,7 @@ function requireDicer () {
 	hasRequiredDicer = 1;
 
 	const WritableStream = require$$0$8.Writable;
-	const inherits = require$$1$1.inherits;
+	const inherits = require$$1$3.inherits;
 
 	const StreamSearch = requireSbmh();
 
@@ -3179,7 +3179,7 @@ function requireMultipart () {
 	//     -- this will require modifications to utils.parseParams
 
 	const { Readable } = require$$0$8;
-	const { inherits } = require$$1$1;
+	const { inherits } = require$$1$3;
 
 	const Dicer = requireDicer();
 
@@ -3745,7 +3745,7 @@ function requireMain () {
 	hasRequiredMain = 1;
 
 	const WritableStream = require$$0$8.Writable;
-	const { inherits } = require$$1$1;
+	const { inherits } = require$$1$3;
 	const Dicer = requireDicer();
 
 	const MultipartParser = requireMultipart();
@@ -8569,7 +8569,7 @@ function requireConnect () {
 	    let socket;
 	    if (protocol === 'https:') {
 	      if (!tls) {
-	        tls = require$$1;
+	        tls = require$$1$2;
 	      }
 	      servername = servername || options.servername || util.getServerName(host) || null;
 
@@ -14593,7 +14593,7 @@ function requirePendingInterceptorsFormatter () {
 	hasRequiredPendingInterceptorsFormatter = 1;
 
 	const { Transform } = require$$0$6;
-	const { Console } = require$$1$2;
+	const { Console } = require$$1$4;
 
 	/**
 	 * Gets the output of `console.table(…)` as a string.
@@ -14820,7 +14820,7 @@ function requireProxyAgent () {
 	hasRequiredProxyAgent = 1;
 
 	const { kProxy, kClose, kDestroy, kInterceptors } = requireSymbols$4();
-	const { URL } = require$$1$3;
+	const { URL } = require$$1$5;
 	const Agent = requireAgent();
 	const Pool = requirePool();
 	const DispatcherBase = requireDispatcherBase();
@@ -26046,7 +26046,7 @@ function requireSummary () {
 		Object.defineProperty(exports, "__esModule", { value: true });
 		exports.summary = exports.markdownSummary = exports.SUMMARY_DOCS_URL = exports.SUMMARY_ENV_VAR = void 0;
 		const os_1 = require$$0__default;
-		const fs_1 = fs__default;
+		const fs_1 = require$$1__default;
 		const { access, appendFile, writeFile } = fs_1.promises;
 		exports.SUMMARY_ENV_VAR = 'GITHUB_STEP_SUMMARY';
 		exports.SUMMARY_DOCS_URL = 'https://docs.github.com/actions/using-workflows/workflow-commands-for-github-actions#adding-a-job-summary';
@@ -26352,7 +26352,7 @@ function requirePathUtils () {
 	};
 	Object.defineProperty(pathUtils, "__esModule", { value: true });
 	pathUtils.toPlatformPath = pathUtils.toWin32Path = pathUtils.toPosixPath = void 0;
-	const path = __importStar(path__default);
+	const path = __importStar(require$$1__default$1);
 	/**
 	 * toPosixPath converts the given path to the posix form. On Windows, \\ will be
 	 * replaced with /.
@@ -26438,8 +26438,8 @@ function requireIoUtil () {
 		var _a;
 		Object.defineProperty(exports, "__esModule", { value: true });
 		exports.getCmdPath = exports.tryGetExecutablePath = exports.isRooted = exports.isDirectory = exports.exists = exports.READONLY = exports.UV_FS_O_EXLOCK = exports.IS_WINDOWS = exports.unlink = exports.symlink = exports.stat = exports.rmdir = exports.rm = exports.rename = exports.readlink = exports.readdir = exports.open = exports.mkdir = exports.lstat = exports.copyFile = exports.chmod = void 0;
-		const fs = __importStar(fs__default);
-		const path = __importStar(path__default);
+		const fs = __importStar(require$$1__default);
+		const path = __importStar(require$$1__default$1);
 		_a = fs.promises
 		// export const {open} = 'fs'
 		, exports.chmod = _a.chmod, exports.copyFile = _a.copyFile, exports.lstat = _a.lstat, exports.mkdir = _a.mkdir, exports.open = _a.open, exports.readdir = _a.readdir, exports.readlink = _a.readlink, exports.rename = _a.rename, exports.rm = _a.rm, exports.rmdir = _a.rmdir, exports.stat = _a.stat, exports.symlink = _a.symlink, exports.unlink = _a.unlink;
@@ -26629,7 +26629,7 @@ function requireIo () {
 	Object.defineProperty(io, "__esModule", { value: true });
 	io.findInPath = io.which = io.mkdirP = io.rmRF = io.mv = io.cp = void 0;
 	const assert_1 = require$$0$4;
-	const path = __importStar(path__default);
+	const path = __importStar(require$$1__default$1);
 	const ioUtil = __importStar(requireIoUtil());
 	/**
 	 * Copies a file or folder.
@@ -26937,7 +26937,7 @@ function requireToolrunner () {
 	const os = __importStar(require$$0__default);
 	const events = __importStar(requireEvents$1());
 	const child = __importStar(require$$2$2);
-	const path = __importStar(path__default);
+	const path = __importStar(require$$1__default$1);
 	const io = __importStar(requireIo());
 	const ioUtil = __importStar(requireIoUtil());
 	const timers_1 = require$$6;
@@ -27781,7 +27781,7 @@ function requireCore () {
 		const file_command_1 = requireFileCommand();
 		const utils_1 = requireUtils$1();
 		const os = __importStar(require$$0__default);
-		const path = __importStar(path__default);
+		const path = __importStar(require$$1__default$1);
 		const oidc_utils_1 = requireOidcUtils();
 		/**
 		 * The code to exit an action
@@ -28097,70 +28097,68 @@ var execExports = requireExec();
 async function run() {
     try {
         const version = coreExports.getInput('version') || 'latest';
-        const platform = require$$0.platform();
-        let arch = require$$0.arch();
-        // Map Node arch to wash arch
-        if (arch === 'x64')
-            arch = 'amd64';
-        if (arch === 'arm64')
-            arch = 'aarch64';
-        let ext = '';
-        let tarball = '';
-        if (platform === 'win32') {
-            ext = '.zip';
-            tarball = `wash-${platform}-${arch}${ext}`;
+        const nodePlatform = require$$0.platform();
+        const nodeArch = require$$0.arch();
+        // Map Node arch and platform to wash release asset format
+        let platform;
+        let ext;
+        let assetName;
+        let isWindows = false;
+        // Map to release asset platform string based on install.sh logic
+        if (nodePlatform === 'win32') {
+            platform = 'x86_64-pc-windows-msvc';
+            ext = '.exe';
+            assetName = `wash-${platform}${ext}`;
+            isWindows = true;
+        }
+        else if (nodePlatform === 'darwin') {
+            platform =
+                nodeArch === 'arm64' ? 'aarch64-apple-darwin' : 'x86_64-apple-darwin';
+            ext = '';
+            assetName = `wash-${platform}`;
+        }
+        else if (nodePlatform === 'linux') {
+            platform =
+                nodeArch === 'arm64'
+                    ? 'aarch64-unknown-linux-musl'
+                    : 'x86_64-unknown-linux-musl';
+            ext = '';
+            assetName = `wash-${platform}`;
         }
         else {
-            ext = '.tar.gz';
-            tarball = `wash-${platform}-${arch}${ext}`;
+            throw new Error(`Unsupported platform: ${nodePlatform} ${nodeArch}`);
         }
+        // Build the download URL using the cosmonic-labs repository
         let url = '';
         if (version === 'latest') {
-            url = `https://github.com/wasmCloud/wash/releases/latest/download/${tarball}`;
+            url = `https://github.com/cosmonic-labs/wash/releases/latest/download/${assetName}`;
         }
         else {
-            url = `https://github.com/wasmCloud/wash/releases/download/v${version}/${tarball}`;
+            url = `https://github.com/cosmonic-labs/wash/releases/download/v${version}/${assetName}`;
         }
-        const installDir = path.join(process.env[platform === 'win32' ? 'USERPROFILE' : 'HOME'] ||
+        // Create installation directory
+        const installDir = require$$1.join(process.env[nodePlatform === 'win32' ? 'USERPROFILE' : 'HOME'] ||
             require$$0.homedir(), '.wash-bin');
-        fs.mkdirSync(installDir, { recursive: true });
-        const archivePath = path.join(installDir, tarball);
+        require$$1$1.mkdirSync(installDir, { recursive: true });
+        const binPath = require$$1.join(installDir, isWindows ? 'wash.exe' : 'wash');
+        // Download the binary
         coreExports.info(`Downloading wash from ${url}`);
-        await execExports.exec(`curl -sSL -o "${archivePath}" "${url}"`);
-        if (platform === 'win32') {
-            await execExports.exec(`powershell -Command "Expand-Archive -Path '${archivePath}' -DestinationPath '${installDir}' -Force"`);
-        }
-        else {
-            await execExports.exec(`tar -xzf "${archivePath}" -C "${installDir}"`);
-        }
-        // Find the wash binary
-        let washPath = path.join(installDir, 'wash');
-        if (platform === 'win32')
-            washPath += '.exe';
-        if (!fs.existsSync(washPath)) {
-            // Sometimes the binary is inside a folder in the archive
-            const files = fs.readdirSync(installDir);
-            for (const file of files) {
-                if (file.startsWith('wash')) {
-                    const candidate = path.join(installDir, file, platform === 'win32' ? 'wash.exe' : 'wash');
-                    if (fs.existsSync(candidate)) {
-                        washPath = candidate;
-                        break;
-                    }
-                }
-            }
-        }
-        fs.chmodSync(washPath, 0o755);
-        coreExports.addPath(path.dirname(washPath));
-        coreExports.info(`wash installed to ${washPath}`);
-        // Optionally print version
-        await execExports.exec(`"${washPath}" --version`);
+        await execExports.exec(`curl -sSL -o "${binPath}" "${url}"`);
+        // Make the binary executable
+        require$$1$1.chmodSync(binPath, 0o755);
+        // Add to PATH
+        coreExports.addPath(installDir);
+        coreExports.info(`wash installed to ${binPath}`);
+        // Print version
+        await execExports.exec(`"${binPath}" --version`);
     }
     catch (error) {
-        if (error instanceof Error)
+        if (error instanceof Error) {
             coreExports.setFailed(error.message);
-        else
+        }
+        else {
             coreExports.setFailed('Unknown error occurred during wash installation');
+        }
     }
 }
 
