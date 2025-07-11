@@ -125,23 +125,25 @@ When adding new tests to the project, follow these guidelines:
 1. Place test files in the `__tests__/` directory with a `.test.ts` extension
 2. Use the existing mock fixtures in `__fixtures__/` for dependencies
 3. Import the module under test dynamically after setting up mocks:
+
    ```typescript
    // Set up mocks first
    jest.mock('@actions/core', () => ({
      // mock implementations
    }))
-   
+
    // Then dynamically import the module under test
    beforeEach(async () => {
      // Reset mocks
      jest.resetAllMocks()
-     
+
      // Set up mock implementations
-     
+
      // Import the module
      ;({ run } = await import('../src/main.js'))
    })
    ```
+
 4. Write tests that focus on the functionality rather than implementation details
 5. Run tests with `npm test` to ensure they pass
 
@@ -150,6 +152,7 @@ When adding new tests to the project, follow these guidelines:
 A GitHub Actions workflow is set up to run tests and update coverage information on every push to the main branch and on pull requests. The workflow is defined in `.github/workflows/test.yml`.
 
 ## License
+
 Apache-2.0 © Cosmonic Labs
 
 ## Update the Action Metadata
