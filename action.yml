@@ -14,7 +14,7 @@ inputs:
     default: 'latest'
 
 # No outputs for now
-outputs: { }
+outputs: {}
 
 runs:
   using: node20

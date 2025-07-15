@@ -34,13 +34,14 @@ Thank you for your interest in contributing to the `setup-wash` GitHub Action! W
 We use [GitHub Super-Linter](https://github.com/github/super-linter) to ensure code quality and consistency. You can run the linter locally using Docker:
 
 ```bash
-docker run --platform linux/amd64 \
-   -e 'FILTER_REGEX_EXCLUDE=dist/**/*' \
+# optionally add --platform linux/amd64 if on arm
+docker run \
+   -e "FILTER_REGEX_EXCLUDE=dist/**/*" \
    -e VALIDATE_JAVASCRIPT_ES=false \
-   -e VALIDATE_JAVASCRIPT_STANDARD=false \
    -e VALIDATE_JSCPD=false \
    -e VALIDATE_TYPESCRIPT_ES=false \
-   -e VALIDATE_TYPESCRIPT_STANDARD=false \
+   -e FIX_MARKDOWN_PRETTIER=true \
+   -e FIX_YAML_PRETTIER=true \
    -e DEFAULT_BRANCH=main \
    -e RUN_LOCAL=true \
    -v .:/tmp/lint \
@@ -161,6 +162,7 @@ A GitHub Actions workflow is set up to run tests and update coverage information
    > build the final JavaScript action code with all dependencies included. If
    > you do not run this step, your action will not work correctly when it is
    > used in a workflow.
+
 1. (Optional) Test your action locally
 
    The [`@github/local-action`](https://github.com/github/local-action) utility
@@ -170,6 +172,7 @@ A GitHub Actions workflow is set up to run tests and update coverage information
    to a repository.
 
    The `local-action` utility can be run in the following ways:
+
    - Visual Studio Code Debugger
 
      Make sure to review and, if needed, update
