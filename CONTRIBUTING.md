@@ -1,14 +1,14 @@
-# Contributing to setup-wash
+# Contributing to setup-wash-action
 
-Thank you for your interest in contributing to the `setup-wash` GitHub Action! We welcome contributions of all kinds, including bug reports, feature requests, code improvements, and documentation updates.
+Thank you for your interest in contributing to the `setup-wash-action` GitHub Action! We welcome contributions of all kinds, including bug reports, feature requests, code improvements, and documentation updates.
 
 ## Development Setup
 
 1. **Clone the repository:**
 
    ```bash
-   git clone https://github.com/cosmonic-labs/setup-wash.git
-   cd setup-wash
+   git clone https://github.com/cosmonic-labs/setup-wash-action.git
+   cd setup-wash-action
    ```
 
 2. **Install dependencies:**
@@ -172,7 +172,6 @@ A GitHub Actions workflow is set up to run tests and update coverage information
    to a repository.
 
    The `local-action` utility can be run in the following ways:
-
    - Visual Studio Code Debugger
 
      Make sure to review and, if needed, update
@@ -240,4 +239,4 @@ licensed status
 
 ---
 
-Thank you for helping make `setup-wash` better!
+Thank you for helping make `setup-wash-action` better!

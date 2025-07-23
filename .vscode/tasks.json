@@ -3,7 +3,7 @@
   "tasks": [
     {
       "type": "shell",
-      "label": "Build dist for setup-wash",
+      "label": "Build dist for setup-wash-action",
       "command": "npm run bundle"
     }
   ]

@@ -1,4 +1,4 @@
-name: 'setup-wash'
+name: 'setup-wash-action'
 description: 'GitHub Action to install the wash CLI for wasmCloud development.'
 author: 'Cosmonic Labs'
 
@@ -8,13 +8,15 @@ branding:
 
 # Define your inputs here.
 inputs:
-  version:
-    description: 'Version of wash to install (default: latest)'
+  wash-version:
+    description: 'The version of wash to install (default: latest), Examples: 0.51, 0.51.1, ^0.51, ~0.51, latest'
     required: false
     default: 'latest'
 
-# No outputs for now
-outputs: {}
+# Define outputs
+outputs:
+  wash-path:
+    description: 'Path to the installed wash binary'
 
 runs:
   using: node20

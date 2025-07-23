@@ -1,6 +1,6 @@
-# setup-wash
+# setup-wash-action
 
-**setup-wash** is a GitHub Action for installing the
+**setup-wash-action** is a GitHub Action for installing the
 [wash](https://github.com/wasmCloud/wash) CLI, the official tool for wasmCloud
 development. This action makes it easy to add wash to your CI workflows.
 
@@ -16,7 +16,7 @@ Add the following step to your workflow:
 
 ```yaml
 - name: Setup wash
-  uses: cosmonic-labs/setup-wash@v1
+  uses: cosmonic-labs/setup-wash-action@v1
   with:
     version: 'latest' # or specify a version like '0.24.0'
 ```
@@ -44,7 +44,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: cosmonic-labs/setup-wash@v1
+      - uses: cosmonic-labs/setup-wash-action@v1
         with:
           version: 'latest'
       - run: wash --version
