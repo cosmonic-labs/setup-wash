@@ -13,11 +13,12 @@ inputs:
     required: false
     default: 'latest'
 
-# Define outputs
-outputs:
-  wash-path:
-    description: 'Path to the installed wash binary'
-
 runs:
-  using: node20
-  main: dist/index.js
+  using: 'composite'
+  steps:
+    - name: Install wash using taiki-e/cache-cargo-install-action
+      uses: taiki-e/cache-cargo-install-action@v1
+      with:
+        tool: wash
+        git: 'https://github.com/cosmonic-labs/wash'
+        rev: '14a51ee71ec653be4b5ac302a2ce4708d36b83f3'
