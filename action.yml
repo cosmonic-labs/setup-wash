@@ -1,24 +1,24 @@
-name: 'setup-wash-action'
-description: 'GitHub Action to install the wash CLI for wasmCloud development.'
-author: 'Cosmonic Labs'
+name: "setup-wash-action"
+description: "GitHub Action to install the wash CLI for wasmCloud development."
+author: "Cosmonic"
 
 branding:
-  icon: 'terminal'
-  color: 'blue'
+  icon: "terminal"
+  color: "blue"
 
 # Define your inputs here.
 inputs:
   wash-version:
-    description: 'The version of wash to install (default: latest), Examples: 0.51, 0.51.1, ^0.51, ~0.51, latest'
+    description: "The version of wash to install (default: latest), Examples: 0.51, 0.51.1, ^0.51, ~0.51, latest"
     required: false
-    default: 'latest'
+    default: "latest"
 
 runs:
-  using: 'composite'
+  using: "composite"
   steps:
     - name: Install wash using taiki-e/cache-cargo-install-action
       uses: taiki-e/cache-cargo-install-action@v1
       with:
         tool: wash
-        git: 'https://github.com/cosmonic-labs/wash'
-        rev: '14a51ee71ec653be4b5ac302a2ce4708d36b83f3'
+        git: "https://github.com/cosmonic-labs/wash"
+        rev: "14a51ee71ec653be4b5ac302a2ce4708d36b83f3"
